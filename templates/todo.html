@@ -11,7 +11,7 @@
     <div class="container">
         <h1>📋 学習ToDoリスト</h1>
 
-        <form action="{{ url_for('add_todo') }}" method="post">
+        <form action="{{ url_for('todo.add_todo') }}" method="post">
             <label for="title">新しいタスク：</label>
             <input type="text" name="title" id="title" required>
             <button type="submit">追加</button>
@@ -24,18 +24,18 @@
                     {{ todo[1] }}
                 </span>
                 {% if not todo[2] %}
-                <a href="{{ url_for('mark_done', todo_id=todo[0]) }}">✅ 完了</a>
+                <a href="{{ url_for('todo.mark_done', todo_id=todo[0]) }}">✅ 完了</a>
                 {% else %}
-                <a href="{{ url_for('mark_done', todo_id=todo[0]) }}">↩ 未完了</a>
+                <a href="{{ url_for('todo.mark_done', todo_id=todo[0]) }}">↩ 未完了</a>
                 {% endif %}
-                <a href="{{ url_for('delete_todo', todo_id=todo[0]) }}">🗑 削除</a>
+                <a href="{{ url_for('todo.delete_todo', todo_id=todo[0]) }}">🗑 削除</a>
             </li>
             {% else %}
             <li>タスクはありません</li>
             {% endfor %}
         </ul>
 
-        <p><a href="{{ url_for('index') }}">← ホームに戻る</a></p>
+        <p><a href="{{ url_for('reminder.index') }}">← ホームに戻る</a></p>
     </div>
 </body>
 

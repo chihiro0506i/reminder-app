@@ -10,7 +10,7 @@
 <body>
     <div class="container">
         <h1>✍ 新しい予定を登録</h1>
-        <form action="{{ url_for('register') }}" method="post">
+        <form action="{{ url_for('reminder.register') }}" method="post">
             <label>タイトル:</label>
             <input type="text" name="title" required>
 
@@ -20,7 +20,6 @@
             <label>イベント日時:</label>
             <input type="datetime-local" name="event_datetime" required>
 
-            <!-- ✅ ここが重要 -->
             <label>通知タイミング（イベントの何分前か）:</label>
             <input type="number" name="remind_offset" value="10" min="0" required>
 
@@ -37,7 +36,7 @@
 
             <button type="submit">登録する</button>
         </form>
-        <p><a href="{{ url_for('index') }}">← 戻る</a></p>
+        <p><a href="{{ url_for('reminder.index') }}">← 戻る</a></p>
     </div>
 </body>
 

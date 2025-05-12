@@ -11,7 +11,7 @@
     <div class="container">
         <h1>📚 教材一覧</h1>
 
-        <form action="{{ url_for('add_material') }}" method="post">
+        <form action="{{ url_for('materials.add_material') }}" method="post">
             <label for="name">新しい教材名：</label>
             <input type="text" name="name" id="name" required>
             <button type="submit">追加</button>
@@ -26,8 +26,8 @@
             <tr>
                 <td>{{ material[1] }}</td>
                 <td>
-                    <a href="{{ url_for('edit_material', material_id=material[0]) }}">✏️ 編集</a>
-                    <form action="{{ url_for('delete_material', material_id=material[0]) }}" method="post"
+                    <a href="{{ url_for('materials.edit_material', material_id=material[0]) }}">✏️ 編集</a>
+                    <form action="{{ url_for('materials.delete_material', material_id=material[0]) }}" method="post"
                         style="display:inline;">
                         <button type="submit" onclick="return confirm('本当に削除しますか？')">🗑 削除</button>
                     </form>
@@ -40,7 +40,7 @@
             {% endfor %}
         </table>
 
-        <p><a href="{{ url_for('index') }}">← ホームに戻る</a></p>
+        <p><a href="{{ url_for('reminder.index') }}">← ホームに戻る</a></p>
     </div>
 </body>
 

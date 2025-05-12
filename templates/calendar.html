@@ -12,12 +12,12 @@
 <body>
     <div class="container">
         <h1>📅 カレンダー</h1>
-        <a href="{{ url_for('register') }}" class="add-button">＋ 新しい予定を登録</a>
+        <a href="{{ url_for('reminder.register') }}" class="add-button">＋ 新しい予定を登録</a>
 
         <div id="calendar" style="margin-bottom: 40px;"></div>
 
         <h2>📄 予定一覧（絞り込み）</h2>
-        <form action="{{ url_for('filter') }}" method="post">
+        <form action="{{ url_for('reminder.filter') }}" method="post">
             <label>カテゴリ</label>
             <select name="category">
                 <option value="">すべて</option>
@@ -46,10 +46,12 @@
                 通知予定：{{ event[3] }}<br>
                 <small>カテゴリ：{{ event[5] }} / 通知済み：{{ 'はい' if event[7] else 'いいえ' }}</small><br>
                 <small>{{ event[1] }}</small><br>
-                <form action="{{ url_for('edit_event', event_id=event[4]) }}" method="get" style="display:inline;">
+                <form action="{{ url_for('reminder.edit_event', event_id=event[4]) }}" method="get"
+                    style="display:inline;">
                     <button type="submit">編集</button>
                 </form>
-                <form action="{{ url_for('delete_event', event_id=event[4]) }}" method="post" style="display:inline;">
+                <form action="{{ url_for('reminder.delete_event', event_id=event[4]) }}" method="post"
+                    style="display:inline;">
                     <button type="submit">削除</button>
                 </form>
             </li>
@@ -58,7 +60,7 @@
             {% endfor %}
         </ul>
 
-        <p><a href="{{ url_for('index') }}">← ホームに戻る</a></p>
+        <p><a href="{{ url_for('reminder.index') }}">← ホームに戻る</a></p>
     </div>
 
     <script>

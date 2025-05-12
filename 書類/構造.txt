@@ -1,0 +1,29 @@
+📁 reminder-app/
+📄 app.py
+📄 database.db
+📄 scheduler.py
+📄 test_mail.py
+📄 README.md
+📄 .gitignore
+📁 routes/
+    📄 __init__.py
+    📄 reminder.py
+    📄 todo.py
+    📄 timer.py
+    📄 materials.py
+    📄 study_log.py
+📁 templates/
+    📄 index.html
+    📄 calendar.html
+    📄 register.html
+    📄 edit.html
+    📄 edit_material.html
+    📄 todo.html
+    📄 timer.html
+    📄 materials.html
+    📄 study_log.html
+📁 static/
+    📄 style.css
+📁 logs/
+    📄 action.log
+    📄 notify.log
