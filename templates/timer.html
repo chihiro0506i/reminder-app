@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>学習タイマー</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .timer-controls button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .timer-display {
+            font-size: 36px;
+            margin: 20px 0;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>⏱ 学習タイマー</h1>
+
+        <form id="timer-form">
+            <label>教材を選択：</label>
+            <select id="material_id" required>
+                {% for material in materials %}
+                <option value="{{ material[0] }}">{{ material[1] }}</option>
+                {% endfor %}
+            </select>
+        </form>
+
+        <div class="timer-display" id="time">0.00 分</div>
+
+        <div class="timer-controls">
+            <button onclick="startTimer()">▶ 開始</button>
+            <button onclick="pauseTimer()">⏸ 一時停止</button>
+            <button onclick="resumeTimer()">▶ 再開</button>
+            <button onclick="stopTimer()">⏹ 終了</button>
+        </div>
+
+        <p><a href="{{ url_for('index') }}">← ホームに戻る</a></p>
+    </div>
+
+    <script>
+        let startTime = null;
+        let elapsed = 0;
+        let timer = null;
+        let isPaused = false;
+
+        function updateDisplay() {
+            const total = elapsed + (Date.now() - startTime);
+            const minutes = total / 60000;
+            document.getElementById("time").textContent = minutes.toFixed(2) + " 分";
+        }
+
+        function startTimer() {
+            if (timer) return;
+            startTime = Date.now();
+            timer = setInterval(updateDisplay, 1000);
+        }
+
+        function pauseTimer() {
+            if (!timer) return;
+            clearInterval(timer);
+            timer = null;
+            elapsed += Date.now() - startTime;
+            isPaused = true;
+        }
+
+        function resumeTimer() {
+            if (timer || !isPaused) return;
+            startTime = Date.now();
+            timer = setInterval(updateDisplay, 1000);
+            isPaused = false;
+        }
+
+        function stopTimer() {
+            if (!timer && !isPaused) return;
+
+            if (timer) {
+                clearInterval(timer);
+                elapsed += Date.now() - startTime;
+            }
+
+            const duration = Math.floor(elapsed / 1000);
+            const endTime = new Date().toISOString();
+            const startDate = new Date(Date.now() - elapsed).toISOString();
+            const materialId = document.getElementById("material_id").value;
+
+            fetch("/log_study", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    material_id: materialId,
+                    start_time: startDate,
+                    end_time: endTime
+                })
+            }).then(() => {
+                alert("📘 学習記録を保存しました！");
+                location.reload();
+            });
+
+            // 状態リセット
+            timer = null;
+            elapsed = 0;
+            isPaused = false;
+            document.getElementById("time").textContent = "0.00 分";
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+reminder-app/
+├── app.py
+├── scheduler.py
+├── alter_db.py
+├── database.db
+├── README.md
+├── 開発手順.md
+├── 要件定義書.md
+├── 要件定義書_拡張.md
+├── logs/
+│   ├── notify.log
+│   └── action.log
+├── static/
+│   └── style.css
+├── templates/
+│   ├── index.html            # ホーム画面（ナビゲーションのみ）
+│   ├── calendar.html         # 予定カレンダー表示
+│   ├── events.html           # 予定一覧＋絞り込み
+│   ├── register.html
+│   ├── edit.html
+│   ├── todo.html
+│   ├── timer.html
+│   ├── materials.html
+│   ├── edit_material.html
+│   └── study_log.html

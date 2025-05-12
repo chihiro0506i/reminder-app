@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>予定の編集</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>予定を編集</h1>
+
+        {% if error %}
+        <p style="color:red;">{{ error }}</p>
+        {% endif %}
+
+        <form method="post">
+            <label>予定タイトル</label>
+            <input type="text" name="title" value="{{ title }}" required>
+
+            <label>詳細説明</label>
+            <input type="text" name="description" value="{{ description }}">
+
+            <label>実行日時</label>
+            <input type="datetime-local" name="event_datetime" value="{{ event_datetime }}" required>
+
+            <label>何分前に通知しますか？</label>
+            <input type="number" name="remind_offset" value="{{ remind_offset }}" min="1" required>
+
+            <label>カテゴリ（タグ）</label>
+            <select name="category">
+                <option value="仕事" {% if category=='仕事' %}selected{% endif %}>仕事</option>
+                <option value="個人" {% if category=='個人' %}selected{% endif %}>個人</option>
+                <option value="勉強" {% if category=='勉強' %}selected{% endif %}>勉強</option>
+                <option value="健康" {% if category=='健康' %}selected{% endif %}>健康</option>
+                <option value="未分類" {% if category=='未分類' %}selected{% endif %}>未分類</option>
+            </select>
+
+            <button type="submit">保存</button>
+        </form>
+
+        <a href="{{ url_for('index') }}">← 戻る</a>
+    </div>
+</body>
+
+</html>

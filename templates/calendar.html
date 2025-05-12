@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>予定カレンダーと一覧</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>📅 カレンダー</h1>
+        <a href="{{ url_for('register') }}" class="add-button">＋ 新しい予定を登録</a>
+
+        <div id="calendar" style="margin-bottom: 40px;"></div>
+
+        <h2>📄 予定一覧（絞り込み）</h2>
+        <form action="{{ url_for('filter') }}" method="post">
+            <label>カテゴリ</label>
+            <select name="category">
+                <option value="">すべて</option>
+                <option value="仕事">仕事</option>
+                <option value="個人">個人</option>
+                <option value="勉強">勉強</option>
+                <option value="健康">健康</option>
+                <option value="未分類">未分類</option>
+            </select>
+
+            <label>通知状況</label>
+            <select name="notified">
+                <option value="">すべて</option>
+                <option value="0">未通知</option>
+                <option value="1">通知済</option>
+            </select>
+
+            <button type="submit">絞り込む</button>
+        </form>
+
+        <ul>
+            {% for event in events %}
+            <li class="event-item {{ event[5] }}">
+                <strong>{{ event[0] }}</strong><br>
+                実行日時：{{ event[2] }}<br>
+                通知予定：{{ event[3] }}<br>
+                <small>カテゴリ：{{ event[5] }} / 通知済み：{{ 'はい' if event[7] else 'いいえ' }}</small><br>
+                <small>{{ event[1] }}</small><br>
+                <form action="{{ url_for('edit_event', event_id=event[4]) }}" method="get" style="display:inline;">
+                    <button type="submit">編集</button>
+                </form>
+                <form action="{{ url_for('delete_event', event_id=event[4]) }}" method="post" style="display:inline;">
+                    <button type="submit">削除</button>
+                </form>
+            </li>
+            {% else %}
+            <li>予定がありません。</li>
+            {% endfor %}
+        </ul>
+
+        <p><a href="{{ url_for('index') }}">← ホームに戻る</a></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'ja',
+                events: '/api/events'
+            });
+            calendar.render();
+        });
+    </script>
+</body>
+
+</html>

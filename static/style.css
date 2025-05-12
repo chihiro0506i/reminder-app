@@ -1,0 +1,160 @@
+body {
+    font-family: sans-serif;
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin: 0;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    max-width: 100%;
+    margin: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input,
+button,
+select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    margin-top: 15px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+a.add-button {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+a.add-button:hover {
+    text-decoration: underline;
+}
+
+#calendar {
+    max-width: 100%;
+    min-height: 650px;
+    overflow: visible;
+    margin-bottom: 40px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background-color: #f1f1f1;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.event-item.仕事 {
+    background-color: #ffe5e5;
+}
+
+.event-item.個人 {
+    background-color: #e5ffe5;
+}
+
+.event-item.勉強 {
+    background-color: #e5e5ff;
+}
+
+.event-item.健康 {
+    background-color: #ffffe0;
+}
+
+.event-item.未分類 {
+    background-color: #f2f2f2;
+}
+
+@media (max-width: 768px) {
+
+    h1,
+    h2 {
+        font-size: 20px;
+    }
+
+    input,
+    button,
+    select {
+        font-size: 16px;
+    }
+
+    .add-button {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    ul li {
+        font-size: 14px;
+    }
+}
+
+/* タイマー用追加スタイル */
+.timer-display {
+    font-size: 64px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 30px auto;
+    text-align: center;
+}
+
+.timer-buttons {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.timer-buttons button {
+    font-size: 18px;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #28a745;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.timer-buttons button:hover {
+    background-color: #218838;
+}
+
+input[type="number"] {
+    width: 60px;
+    padding: 6px;
+    font-size: 16px;
+    margin-right: 10px;
+}

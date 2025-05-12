@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>教材の編集</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>✏️ 教材の編集</h1>
+        <form method="POST">
+            <label for="name">教材名：</label>
+            <input type="text" id="name" name="name" value="{{ material[1] }}" required>
+            <button type="submit">保存</button>
+        </form>
+        <p><a href="{{ url_for('materials') }}">← 戻る</a></p>
+    </div>
+</body>
+
+</html>

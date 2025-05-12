@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>学習ログ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>📘 学習履歴</h1>
+
+        <table border="1" cellspacing="0" cellpadding="8">
+            <tr>
+                <th>教材</th>
+                <th>開始</th>
+                <th>終了</th>
+                <th>所要時間（分）</th>
+            </tr>
+            {% for session in sessions %}
+            <tr>
+                <td>{{ session[0] }}</td>
+                <td>{{ session[1] }}</td>
+                <td>{{ session[2] }}</td>
+                <td>{{ '%.2f' | format(session[3] / 60) }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h2>📊 教材別学習時間（分）</h2>
+        <canvas id="studyChart" width="400" height="200"></canvas>
+
+        <script>
+            const ctx = document.getElementById('studyChart').getContext('2d');
+            const studyChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: {{ chart_labels | safe }},
+            datasets: [{
+                label: '学習時間（分）',
+                data: {{ chart_data | safe }},
+                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+                    }]
+                },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                            title: {
+                            display: true,
+                                text: '分'
+                        }
+                    }
+                }
+            }
+            });
+        </script>
+
+        <p><a href="{{ url_for('index') }}">← ホームに戻る</a></p>
+    </div>
+</body>
+
+</html>

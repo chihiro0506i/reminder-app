@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>学習支援アプリ ホーム</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>🏠 学習支援アプリ ホーム</h1>
+
+        <ul class="menu-list">
+            <li><a href="{{ url_for('calendar_view') }}">📅 カレンダー・予定一覧</a></li>
+            <li><a href="{{ url_for('todo') }}">📋 ToDoリスト</a></li>
+            <li><a href="{{ url_for('timer') }}">⏱ タイマー</a></li>
+            <li><a href="{{ url_for('materials') }}">📚 教材管理</a></li>
+            <li><a href="{{ url_for('study_log') }}">📘 学習ログ</a></li>
+        </ul>
+    </div>
+</body>
+
+</html>
