@@ -1,13 +1,12 @@
 import sqlite3
 import smtplib
 from email.mime.text import MIMEText
-from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime, timedelta
 import os
 
 # ログ出力用ディレクトリ作成
 os.makedirs("logs", exist_ok=True)
-
 
 def send_email(to_email, subject, body):
     from_email = "reminderbot91@gmail.com"
@@ -22,7 +21,6 @@ def send_email(to_email, subject, body):
         smtp.login(from_email, app_password)
         smtp.send_message(msg)
 
-
 def get_next_datetime(current_dt, repeat):
     dt = datetime.strptime(current_dt, "%Y-%m-%dT%H:%M")
     if repeat == "毎日":
@@ -36,20 +34,15 @@ def get_next_datetime(current_dt, repeat):
             return dt.replace(month=(dt.month % 12) + 1, day=28)
     return None
 
-
 def check_and_notify():
     now = datetime.now().strftime("%Y-%m-%dT%H:%M")
     conn = sqlite3.connect("database.db")
     c = conn.cursor()
-
-    c.execute(
-        """
+    c.execute("""
         SELECT event_id, title, description, event_datetime, remind_datetime, category, repeat
         FROM events
         WHERE notified = 0 AND remind_datetime <= ?
-    """,
-        (now,),
-    )
+    """, (now,))
     events = c.fetchall()
 
     for event in events:
@@ -66,23 +59,16 @@ def check_and_notify():
                 next_event_dt = get_next_datetime(event_dt, repeat)
                 next_remind_dt = get_next_datetime(remind_dt, repeat)
                 if next_event_dt and next_remind_dt:
-                    c.execute(
-                        """
+                    c.execute("""
                         INSERT INTO events (user_id, title, description, event_datetime, remind_datetime, category, repeat, notified)
                         VALUES (?, ?, ?, ?, ?, ?, ?, 0)
-                    """,
-                        (
-                            1,
-                            title,
-                            desc,
-                            next_event_dt.strftime("%Y-%m-%dT%H:%M"),
-                            next_remind_dt.strftime("%Y-%m-%dT%H:%M"),
-                            category,
-                            repeat,
-                        ),
-                    )
+                    """, (
+                        1, title, desc,
+                        next_event_dt.strftime("%Y-%m-%dT%H:%M"),
+                        next_remind_dt.strftime("%Y-%m-%dT%H:%M"),
+                        category, repeat
+                    ))
 
-            # 通知済みのイベントを削除
             c.execute("DELETE FROM events WHERE event_id = ?", (event_id,))
 
         except Exception as e:
@@ -93,9 +79,9 @@ def check_and_notify():
     conn.commit()
     conn.close()
 
-
-if __name__ == "__main__":
-    scheduler = BlockingScheduler()
+# ✅ Flask 側で呼び出す関数
+def start_scheduler():
+    scheduler = BackgroundScheduler()
     scheduler.add_job(check_and_notify, "interval", minutes=1)
-    print("🔁 スケジューラ起動中...（毎分チェック）")
     scheduler.start()
+    print("🔁 通知スケジューラ起動中（毎分チェック）")

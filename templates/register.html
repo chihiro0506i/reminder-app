@@ -24,7 +24,14 @@
             <input type="number" name="remind_offset" value="10" min="0" required>
 
             <label>カテゴリ:</label>
-            <input type="text" name="category" value="未分類">
+            <select name="category">
+                <option value="仕事">仕事</option>
+                <option value="個人">個人</option>
+                <option value="勉強">勉強</option>
+                <option value="健康">健康</option>
+                <option value="未分類" selected>未分類</option>
+            </select>
+
 
             <label>繰り返し:</label>
             <select name="repeat">
